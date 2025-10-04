@@ -1,0 +1,57 @@
+.books-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.radio-container {
+    display: flex;
+}
+.book {
+    height: 16vh;
+    width: 10vw;
+    background-color: burlywood;
+}
+
+.button-div {
+    display: flex;
+    margin-top: 4rem;
+    justify-content: center;
+}
+
+.new-book {
+    background-color: rgb(98, 224, 98);
+}
+
+/* form styling */
+.title-div, .author-div, .pages-div, .read-div {
+    margin-bottom: .5rem;
+}
+
+form {
+    width: 25vw;
+}
+
+.form-buttons {
+    gap: .5rem;
+    display: flex;
+    justify-content: center;
+    margin-top: .75rem;
+}
+/*======================================================== */
+.temp {
+    height: 16vh;
+    width: 10vw;
+    background-color: lightslategray;
+}
+
+.x-div {
+    box-sizing: border-box;
+    margin-top: 2px;
+    text-align: end;
+    margin-right: 2px;
+}
+
+.temph4 {
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
