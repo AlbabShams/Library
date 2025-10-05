@@ -1,12 +1,98 @@
 const myLibrary = [];
 
-//Creating new book object
-function Book (name, author, pages, id, read) {
-    this.name = name;
-    this.author = author;
-    this.pages = pages;
-    this.id = id;
-    this.read = read;
+//Creating new book object using class
+class Book {
+    constructor (name, author, pages, id, read) {
+        this.name = name;
+        this.author = author;
+        this.pages = pages;
+        this.id = id;
+        this.read = read;
+    }
+
+    createReadStatusBtn (bookDiv) {
+        const radioContainer = document.createElement("div");
+        radioContainer.style.display = "flex";
+        radioContainer.style.marginTop = "1rem";
+
+        const radioStatus = document.createElement("div");
+        radioStatus.textContent = "Read-Status: ";
+
+        const yesRadio = document.createElement("input");
+        yesRadio.type = "radio";
+
+        const radioGroup = "read-status " + this.id;
+        yesRadio.name = radioGroup;
+        yesRadio.id = "yes";
+
+        const yesLabel = document.createElement("label");
+        yesLabel.htmlFor = "yes";
+        yesLabel.textContent = "Yes";
+
+        const noRadio = document.createElement("input");
+        noRadio.type = "radio";
+        noRadio.name = radioGroup;
+        noRadio.id = "no";
+
+        const noLabel = document.createElement("label");
+        noLabel.htmlFor = "no";
+        noLabel.textContent = "No";
+
+        radioContainer.appendChild(radioStatus);
+        radioContainer.appendChild(yesRadio);
+        radioContainer.appendChild(yesLabel);
+        radioContainer.appendChild(noRadio);
+        radioContainer.appendChild(noLabel);
+        bookDiv.appendChild(radioContainer);
+        return radioContainer;
+    }
+
+    //Making selection on radio button
+    radioSelection (yesradio,noradio) {
+        const selectReadStatus = document.querySelector("select");
+        if (selectReadStatus.value == "yes") {
+            this.read = "yes";
+            yesradio.checked = true;
+
+        } else {
+            this.read = "no";
+            noradio.checked = true;
+    }
+
+        const formElement = document.querySelector("form");
+        formElement.reset();
+}
+
+
+    //Toggle read attribute when radio button is toggled
+    readStatusToggle () {
+        const bookContainer = document.querySelector(".books-container");
+        bookContainer.addEventListener("change", (e) => {
+            const bookCard = e.target.closest(".book");
+            if (bookCard.dataset.id == this.id) {
+                this.read = e.target.id;
+            }
+    })
+}
+
+    //Delete book cards using delete button
+    delBook () {
+        const bookContainer = document.querySelector(".books-container");
+        const bookCard = document.querySelector(`[data-id = "${this.id}"]`);
+        const delBtn = bookCard.querySelector(".del-div");
+        delBtn.addEventListener("click", () => {
+
+        //Remove book from DOM
+        bookContainer.removeChild(bookCard);
+
+        //Remove book object from Library
+        const indexOfBookToDel = myLibrary.findIndex((element) => element.id == this.id);
+        if (indexOfBookToDel !== -1) {
+            myLibrary.splice(indexOfBookToDel,1);
+        }
+})
+}
+
 }
 
 //Adding newbook to Library
@@ -106,92 +192,6 @@ function addNewBookInfo (newBook) {
         bookDiv.appendChild(pagesCount);
 
         return newBook;
-}
-
-
-
-//Adding functions to prototype
-//Creating read status radio buttons
-Book.prototype.createReadStatusBtn = function (bookDiv) {
-    const radioContainer = document.createElement("div");
-    radioContainer.style.display = "flex";
-    radioContainer.style.marginTop = "1rem";
-
-    const radioStatus = document.createElement("div");
-    radioStatus.textContent = "Read-Status: ";
-
-    const yesRadio = document.createElement("input");
-    yesRadio.type = "radio";
-
-    const radioGroup = "read-status " + this.id;
-    yesRadio.name = radioGroup;
-    yesRadio.id = "yes";
-
-    const yesLabel = document.createElement("label");
-    yesLabel.for = "yes";
-    yesLabel.textContent = "Yes";
-
-    const noRadio = document.createElement("input");
-    noRadio.type = "radio";
-    noRadio.name = radioGroup;
-    noRadio.id = "no";
-
-    const noLabel = document.createElement("label");
-    noLabel.for = "no";
-    noLabel.textContent = "No";
-
-    radioContainer.appendChild(radioStatus);
-    radioContainer.appendChild(yesRadio);
-    radioContainer.appendChild(yesLabel);
-    radioContainer.appendChild(noRadio);
-    radioContainer.appendChild(noLabel);
-    bookDiv.appendChild(radioContainer);
-    return radioContainer;
-}
-
-//Making selection on radio button
-Book.prototype.radioSelection = function (yesradio,noradio) {
-    const selectReadStatus = document.querySelector("select");
-    if (selectReadStatus.value == "yes") {
-        this.read = "yes";
-        yesradio.checked = true;
-
-    } else {
-        this.read = "no";
-        noradio.checked = true;
-    }
-
-    const formElement = document.querySelector("form");
-    formElement.reset();
-}
-
-//Toggle read attribute when radio button is toggled
-Book.prototype.readStatusToggle = function () {
-    const bookContainer = document.querySelector(".books-container");
-    bookContainer.addEventListener("change", (e) => {
-        const bookCard = e.target.closest(".book");
-        if (bookCard.dataset.id == this.id) {
-                this.read = e.target.id;
-            }
-    })
-}
-
-//Delete book cards using delete button
-Book.prototype.delBook = function () {
-    const bookContainer = document.querySelector(".books-container");
-    const bookCard = document.querySelector(`[data-id = "${this.id}"]`);
-    const delBtn = bookCard.querySelector(".del-div");
-    delBtn.addEventListener("click", () => {
-
-        //Remove book from DOM
-        bookContainer.removeChild(bookCard);
-
-        //Remove book object from Library
-        const indexOfBookToDel = myLibrary.findIndex((element) => element.id == this.id);
-        if (indexOfBookToDel !== -1) {
-            myLibrary.splice(indexOfBookToDel,1);
-        }
-})
 }
 
 //Main script
